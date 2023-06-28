@@ -1,0 +1,41 @@
+version: '3.6'
+
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    command: ["start-dev"]
+    ports:
+      - '8086:8080'
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=keycloak_db
+      - DB_DATABASE=keycloak
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - keycloak_db
+    networks:
+      - keycloak_network
+    restart: unless-stopped
+
+  keycloak_db:
+    image: postgres:12
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    networks:
+      - keycloak_network
+    restart: unless-stopped
+
+networks:
+  keycloak_network:
+    driver: bridge
+
+volumes:
+  keycloak_db_data:

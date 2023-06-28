@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+fastapi-keycloak = "*"
+typing = "*"
+pydantic = "*"
+requests = "*"
+python-jose = "*"
+python-multipart = "*"
+grequests = "*"
+email-validator = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
